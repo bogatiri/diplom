@@ -1,16 +1,17 @@
 'use client'
 
+import { Menu } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 import { useMobileSidebar } from '@/hooks/use-mobile-sidebar'
 import { Button } from '@/components/ui/button'
-import { Menu } from 'lucide-react'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
+
 import Sidebar from './sidebar'
 
 const MobileSidebar = () => {
-  const pathname = usePathname
+  const pathname = usePathname()
   const [isMounted, setIsMounted] = useState(false)
 
   const onOpen = useMobileSidebar((state) => state.onOpen)
@@ -28,6 +29,7 @@ const MobileSidebar = () => {
   if (!isMounted) {
     return null
   }
+
   return (
     <>
       <Button
@@ -42,7 +44,10 @@ const MobileSidebar = () => {
         open={isOpen}
         onOpenChange={onClose}
       >
-        <SheetContent className="p-2 pt-10">
+        <SheetContent
+          side="left"
+          className="p-2 pt-10"
+        >
           <Sidebar storageKey="t-sidebar-mobile-state" />
         </SheetContent>
       </Sheet>

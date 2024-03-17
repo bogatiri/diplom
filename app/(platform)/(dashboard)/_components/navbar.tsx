@@ -8,13 +8,13 @@ import MobileSidebar from './mobile-sidebar'
 const Navbar = () => {
   return (
     <nav className="fixed z-50 top-0 px-4 w-full h-14 border-b shadow-sm bg-white flex items-center">
-      <MobileSidebar/>
+      <MobileSidebar />
       <div className="flex items-center gap-x-4">
         <div className="hidden md:flex">
           <Logo />
         </div>
         <Button
-        variant='primary'
+          variant="primary"
           size="sm"
           className="rounded-sm hidden md:block h-auto py-1.5 px-2"
         >
@@ -43,17 +43,17 @@ const Navbar = () => {
             },
           }}
         />
-				<UserButton 
-				afterSignOutUrl='/'
-				appearance={{
-					elements: {
-						avatarBox:{
-							height: 30,
-							width: 30
-						}
-					}
-				}}
-				/>
+        <UserButton
+          afterSignOutUrl="/"
+          appearance={{
+            elements: {
+              avatarBox: {
+                height: 30,
+                width: 30,
+              },
+            },
+          }}
+        />
       </div>
     </nav>
   )
