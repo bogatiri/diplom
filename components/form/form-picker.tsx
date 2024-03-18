@@ -68,7 +68,6 @@ export const FormPicker = ({ id, errors }: FormPickerProps) => {
             )}
             onClick={() => {
               if (pending) return
-              console.log('Selected image')
               setSelectedImageId(image.id)
             }}
           >
