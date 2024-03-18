@@ -8,6 +8,7 @@ import { useState, useRef, ElementRef } from "react";
 import { useAction } from "@/hooks/useAction";
 import { updateList } from "@/actions/update-list";
 import { FormInput } from "@/components/form/form-input";
+import { ListOptions } from "./list-options";
 
 
 interface ListHeaderProps {
@@ -104,6 +105,10 @@ export const ListHeader = ({
           {title}
         </div>
       )}
+      <ListOptions
+      data={data}
+      onAddCard={() => {}}
+      />
     </div>
   );
 };
