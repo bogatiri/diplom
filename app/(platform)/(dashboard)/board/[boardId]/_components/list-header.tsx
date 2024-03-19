@@ -107,7 +107,7 @@ export const ListHeader = ({
       )}
       <ListOptions
       data={data}
-      onAddCard={() => {}}
+      onAddCard={onAddCard}
       />
     </div>
   );
