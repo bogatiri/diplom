@@ -1,14 +1,11 @@
-import { Suspense } from "react";
+import { Suspense } from 'react'
 
-import { Separator } from "@/components/ui/separator";
+import { Separator } from '@/components/ui/separator'
 
-import { Info } from "./_components/info";
-import { BoardList } from "./_components/board-list";
-
+import { Info } from './_components/info'
+import { BoardList } from './_components/board-list'
 
 const OrganizationIdPage = async () => {
-
-
   return (
     <div className="w-full mb-20">
       <Separator className="my-4" />
@@ -18,7 +15,7 @@ const OrganizationIdPage = async () => {
         </Suspense>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default OrganizationIdPage;
+export default OrganizationIdPage
