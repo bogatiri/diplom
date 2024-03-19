@@ -2,15 +2,15 @@ import { Suspense } from 'react'
 
 import { Separator } from '@/components/ui/separator'
 
-import { ActivityList } from './_components/activity-list'
-import Info from '../_components/Info'
+import { Info } from '../_components/info'
 
-const ActivityPage = () => {
+import { ActivityList } from './_components/activity-list'
+
+const ActivityPage = async () => {
   return (
     <div className="w-full">
-      <Info />
       <Separator className="my-2" />
-      <Suspense fallback={<ActivityList.Skeleton/>}>
+      <Suspense fallback={<ActivityList.Skeleton />}>
         <ActivityList />
       </Suspense>
     </div>

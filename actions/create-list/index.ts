@@ -1,28 +1,27 @@
-"use server";
+'use server'
 
-import { auth } from "@clerk/nextjs";
-import { revalidatePath } from "next/cache";
+import { auth } from '@clerk/nextjs'
+import { revalidatePath } from 'next/cache'
 
-import { db } from "@/lib/db";
-import { createSafeAction } from "@/lib/create-safe-action";
+import { db } from '@/lib/db'
+import { createSafeAction } from '@/lib/create-safe-action'
 
-import { CreateList } from "./schema";
-import { InputType, ReturnType } from "./types";
-import { createAuditLog } from "@/lib/create-audit-log";
-import { ACTION, ENTITY_TYPE } from "@prisma/client";
-
+import { CreateList } from './schema'
+import { InputType, ReturnType } from './types'
+import { createAuditLog } from '@/lib/create-audit-log'
+import { ACTION, ENTITY_TYPE } from '@prisma/client'
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth();
+  const { userId, orgId } = auth()
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
-    };
+      error: 'Unauthorized',
+    }
   }
 
-  const { title, boardId } = data;
-  let list;
+  const { title, boardId } = data
+  let list
 
   try {
     const board = await db.board.findUnique({
@@ -30,21 +29,21 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         id: boardId,
         orgId,
       },
-    });
+    })
 
     if (!board) {
       return {
-        error: "Board not found",
-      };
+        error: 'Board not found',
+      }
     }
 
     const lastList = await db.list.findFirst({
       where: { boardId: boardId },
-      orderBy: { order: "desc" },
+      orderBy: { order: 'desc' },
       select: { order: true },
-    });
+    })
 
-    const newOrder = lastList ? lastList.order + 1 : 1;
+    const newOrder = lastList ? lastList.order + 1 : 1
 
     list = await db.list.create({
       data: {
@@ -52,23 +51,22 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         boardId,
         order: newOrder,
       },
-    });
-
-    await createAuditLog({
-      entityId: list.id,
-      entityTitle: list.title,
-      entityType: ENTITY_TYPE.CARD,
-      action: ACTION.CREATE
     })
 
+    await createAuditLog({
+      entityTitle: list.title,
+      entityId: list.id,
+      entityType: ENTITY_TYPE.LIST,
+      action: ACTION.CREATE,
+    })
   } catch (error) {
     return {
-      error: "Failed to create."
+      error: 'Failed to create.',
     }
   }
 
-  revalidatePath(`/board/${boardId}`);
-  return { data: list };
-};
+  revalidatePath(`/board/${boardId}`)
+  return { data: list }
+}
 
-export const createList = createSafeAction(CreateList, handler);
+export const createList = createSafeAction(CreateList, handler)

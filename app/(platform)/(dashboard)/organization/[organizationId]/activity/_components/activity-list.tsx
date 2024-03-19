@@ -1,8 +1,9 @@
-import { ActivityItem } from '@/components/activity-item'
-import { Skeleton } from '@/components/ui/skeleton'
-import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
+
+import { db } from '@/lib/db'
+import { ActivityItem } from '@/components/activity-item'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export const ActivityList = async () => {
   const { orgId } = auth()
@@ -15,14 +16,14 @@ export const ActivityList = async () => {
     where: {
       orgId,
     },
-		orderBy:{
-			createdAt:'desc'
-		}
+    orderBy: {
+      createdAt: 'desc',
+    },
   })
 
   return (
     <ol className="space-y-4 mt-4">
-      <p className="hidden last:block text-sx text-center text-muted-foreground">
+      <p className="hidden last:block text-xs text-center text-muted-foreground">
         No activity found inside this organization
       </p>
       {auditLogs.map((log) => (

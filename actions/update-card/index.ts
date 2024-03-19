@@ -1,11 +1,13 @@
 'use server'
 
 import { auth } from '@clerk/nextjs'
-import { InputType, ReturnType } from './types'
-import { db } from '@/lib/db'
 import { revalidatePath } from 'next/cache'
+
+import { db } from '@/lib/db'
 import { createSafeAction } from '@/lib/create-safe-action'
+
 import { UpdateCard } from './schema'
+import { InputType, ReturnType } from './types'
 import { createAuditLog } from '@/lib/create-audit-log'
 import { ACTION, ENTITY_TYPE } from '@prisma/client'
 
@@ -14,11 +16,11 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
   if (!userId || !orgId) {
     return {
-      error: 'Unauthorizded',
+      error: 'Unauthorized',
     }
   }
 
-  const { boardId, id, ...values } = data
+  const { id, boardId, ...values } = data
   let card
 
   try {
@@ -27,8 +29,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         id,
         list: {
           board: {
-            orgId
-          }
+            orgId,
+          },
         },
       },
       data: {
@@ -37,15 +39,14 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     })
 
     await createAuditLog({
-      entityId: card.id,
       entityTitle: card.title,
+      entityId: card.id,
       entityType: ENTITY_TYPE.CARD,
-      action: ACTION.UPDATE
+      action: ACTION.UPDATE,
     })
-
   } catch (error) {
     return {
-      error: 'Failed to update',
+      error: 'Failed to update.',
     }
   }
 

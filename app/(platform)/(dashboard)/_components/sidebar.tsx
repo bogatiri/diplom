@@ -6,15 +6,17 @@ import { useLocalStorage } from 'usehooks-ts'
 import { useOrganization, useOrganizationList } from '@clerk/nextjs'
 
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Accordion } from '@/components/ui/accordion'
+
 import { NavItem, Organization } from './nav-item'
 
 interface SidebarProps {
   storageKey?: string
 }
 
-const Sidebar = ({ storageKey = 't-sidebar-state' }: SidebarProps) => {
+export const Sidebar = ({ storageKey = 't-sidebar-state' }: SidebarProps) => {
   const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(
     storageKey,
     {}
@@ -22,7 +24,6 @@ const Sidebar = ({ storageKey = 't-sidebar-state' }: SidebarProps) => {
 
   const { organization: activeOrganization, isLoaded: isLoadedOrg } =
     useOrganization()
-
   const { userMemberships, isLoaded: isLoadedOrgList } = useOrganizationList({
     userMemberships: {
       infinite: true,
@@ -34,6 +35,7 @@ const Sidebar = ({ storageKey = 't-sidebar-state' }: SidebarProps) => {
       if (expanded[key]) {
         acc.push(key)
       }
+
       return acc
     },
     []
@@ -64,7 +66,7 @@ const Sidebar = ({ storageKey = 't-sidebar-state' }: SidebarProps) => {
 
   return (
     <>
-      <div className="font-medium text-sx flex items-center mb-1">
+      <div className="font-medium text-xs flex items-center mb-1">
         <span className="pl-4">Workspaces</span>
         <Button
           asChild
@@ -96,5 +98,3 @@ const Sidebar = ({ storageKey = 't-sidebar-state' }: SidebarProps) => {
     </>
   )
 }
-
-export default Sidebar

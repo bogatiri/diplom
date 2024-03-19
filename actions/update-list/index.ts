@@ -1,27 +1,27 @@
-"use server";
+'use server'
 
-import { auth } from "@clerk/nextjs";
-import { revalidatePath } from "next/cache";
+import { auth } from '@clerk/nextjs'
+import { revalidatePath } from 'next/cache'
 
-import { db } from "@/lib/db";
-import { createSafeAction } from "@/lib/create-safe-action";
+import { db } from '@/lib/db'
+import { createSafeAction } from '@/lib/create-safe-action'
 
-import { UpdateList } from "./schema";
-import { InputType, ReturnType } from "./types";
-import { createAuditLog } from "@/lib/create-audit-log";
-import { ACTION, ENTITY_TYPE } from "@prisma/client";
+import { UpdateList } from './schema'
+import { InputType, ReturnType } from './types'
+import { createAuditLog } from '@/lib/create-audit-log'
+import { ACTION, ENTITY_TYPE } from '@prisma/client'
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth();
+  const { userId, orgId } = auth()
 
   if (!userId || !orgId) {
     return {
-      error: "Unauthorized",
-    };
+      error: 'Unauthorized',
+    }
   }
 
-  const { title, id, boardId } = data;
-  let list;
+  const { title, id, boardId } = data
+  let list
 
   try {
     list = await db.list.update({
@@ -35,23 +35,22 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       data: {
         title,
       },
-    });
-
-    await createAuditLog({
-      entityId: list.id,
-      entityTitle: list.title,
-      entityType: ENTITY_TYPE.BOARD,
-      action: ACTION.UPDATE
     })
 
+    await createAuditLog({
+      entityTitle: list.title,
+      entityId: list.id,
+      entityType: ENTITY_TYPE.CARD,
+      action: ACTION.UPDATE,
+    })
   } catch (error) {
     return {
-      error: "Failed to update."
+      error: 'Failed to update.',
     }
   }
 
-  revalidatePath(`/board/${boardId}`);
-  return { data: list };
-};
+  revalidatePath(`/board/${boardId}`)
+  return { data: list }
+}
 
-export const updateList = createSafeAction(UpdateList, handler);
+export const updateList = createSafeAction(UpdateList, handler)

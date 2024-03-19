@@ -1,11 +1,12 @@
-import { FormPopover } from '@/components/form/form-popover'
-import Hint from '@/components/hint'
-import { HelpCircle, User2 } from 'lucide-react'
-import { db } from '@/lib/db'
+import Link from 'next/link'
 import { auth } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
+import { HelpCircle, User2 } from 'lucide-react'
+
+import { db } from '@/lib/db'
+import { Hint } from '@/components/hint'
 import { Skeleton } from '@/components/ui/skeleton'
+import { FormPopover } from '@/components/form/form-popover'
 
 export const BoardList = async () => {
   const { orgId } = auth()
@@ -50,14 +51,14 @@ export const BoardList = async () => {
             className="aspect-video relative h-full w-full bg-muted rounded-sm flex flex-col gap-y-1 items-center justify-center hover:opacity-75 transition"
           >
             <p className="text-sm">Create new board</p>
-            <span className="text-xs">5 remaining</span>
+
             <Hint
               sideOffset={40}
               description={`
-          Free Workspaces can have up to 5 open boards. For unlimited boards upgrade this workspace
-          `}
+                Free Workspaces can have up to 5 open boards. For unlimited boards upgrade this workspace.
+              `}
             >
-              <HelpCircle className="absolute bottom-2 right-2 h-[14px] 2-[14px]" />
+              <HelpCircle className="absolute bottom-2 right-2 h-[14px] w-[14px]" />
             </Hint>
           </div>
         </FormPopover>
@@ -68,7 +69,7 @@ export const BoardList = async () => {
 
 BoardList.Skeleton = function SkeletonBoardList() {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid gird-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
       <Skeleton className="aspect-video h-full w-full p-2" />
       <Skeleton className="aspect-video h-full w-full p-2" />
       <Skeleton className="aspect-video h-full w-full p-2" />

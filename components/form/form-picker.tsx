@@ -81,14 +81,16 @@ export const FormPicker = ({
               name={id}
               className="hidden"
               checked={selectedImageId === image.id}
+              onChange={() => {}}
               disabled={pending}
-              value={`${image.id}|${image.urls.thumb}|${image.urls.full}|${image.links.html}|${image.user.name}`}
+              defaultValue={`${image.id}|${image.urls.thumb}|${image.urls.full}|${image.links.html}|${image.user.name}`}
             />
             <Image
               src={image.urls.thumb}
               alt="Unsplash image"
               className="object-cover rounded-sm"
               fill  
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             {selectedImageId === image.id && (
               <div className="absolute inset-y-0 h-full w-full bg-black/30 flex items-center justify-center">
