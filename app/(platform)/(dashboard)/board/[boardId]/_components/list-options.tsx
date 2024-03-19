@@ -81,7 +81,7 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
           asChild
         >
           <Button
-            className="h-aut w-auto p-2 absolute top-2 right-2 text-neutral-600"
+            className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600"
             variant="ghost"
           >
             <X className="h-4 w-4" />
@@ -99,13 +99,13 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
             hidden
             name="id"
             id="id"
-            value={data.id}
+            defaultValue={data.id}
           />
           <input
             hidden
             name="boardId"
             id="boardId"
-            value={data.boardId}
+            defaultValue={data.boardId}
           />
           <FormSubmit
             variant="ghost"
@@ -120,13 +120,13 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
             hidden
             name="id"
             id="id"
-            value={data.id}
+            defaultValue={data.id}
           />
           <input
             hidden
             name="boardId"
             id="boardId"
-            value={data.boardId}
+            defaultValue={data.boardId}
           />
           <FormSubmit
             variant="ghost"

@@ -1,6 +1,8 @@
 'use client'
 
 import { Card } from '@prisma/client'
+import { Draggable, Droppable } from '@hello-pangea/dnd'
+
 import React from 'react'
 
 interface CardItemProps {
@@ -10,11 +12,21 @@ interface CardItemProps {
 
 export const CardItem = ({ index, data }: CardItemProps) => {
   return (
-    <div
-      className="truncate border-2 border-transparent hover:border-black py-2 px-3 text-sm bg-white rounded-md shadow-sm"
-      role="button"
+    <Draggable
+      draggableId={data.id}
+      index={index}
     >
-      {data.title}
-    </div>
+      {(provided) => (
+        <div
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+          className="truncate border-2 border-transparent hover:border-black py-2 px-3 text-sm bg-white rounded-md shadow-sm"
+          role="button"
+        >
+          {data.title}
+        </div>
+      )}
+    </Draggable>
   )
 }

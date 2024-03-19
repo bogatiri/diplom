@@ -77,7 +77,7 @@ export const ListForm = () => {
           />
           <input
             hidden
-            value={params.boardId}
+            defaultValue={params.boardId}
             name="boardId"
             autoComplete="off"
           />
