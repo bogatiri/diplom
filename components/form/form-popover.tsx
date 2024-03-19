@@ -11,12 +11,12 @@ import {
   PopoverTrigger,
   PopoverClose,
 } from "@/components/ui/popover";
-import { useAction } from "@/hooks/useAction";
+import { useAction } from "@/hooks/use-action";
 import { Button } from "@/components/ui/button";
 import { createBoard } from "@/actions/create-board";
 
 import { FormInput } from "./form-input";
-import { FormSubmit } from "./form-button";
+import { FormSubmit } from "./form-submit";
 import { FormPicker } from "./form-picker";
 
 interface FormPopoverProps {
@@ -26,7 +26,7 @@ interface FormPopoverProps {
   sideOffset?: number;
 };
 
-export const PopoverForm = ({
+export const FormPopover = ({
   children,
   side = "bottom",
   align,

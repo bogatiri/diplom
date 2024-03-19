@@ -10,5 +10,6 @@ export const UpdateListOrder = z.object({
       updatedAt: z.date(),
     }),
   ),
+  listId: z.string(),
   boardId: z.string(),
 });

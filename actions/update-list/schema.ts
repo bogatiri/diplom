@@ -8,5 +8,5 @@ export const UpdateList = z.object({
     message: "Title is too short",
   }),
   id: z.string(),
-  boardId: z.string()
+  boardId: z.string(),
 });

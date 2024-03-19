@@ -5,11 +5,11 @@ import { List } from "@prisma/client";
 import { useEventListener } from "usehooks-ts";
 import { useState, useRef, ElementRef } from "react";
 
-import { useAction } from "@/hooks/useAction";
+import { useAction } from "@/hooks/use-action";
 import { updateList } from "@/actions/update-list";
 import { FormInput } from "@/components/form/form-input";
-import { ListOptions } from "./list-options";
 
+import { ListOptions } from "./list-options";
 
 interface ListHeaderProps {
   data: List;
@@ -85,8 +85,8 @@ export const ListHeader = ({
           action={handleSubmit}  
           className="flex-1 px-[2px]"
         >
-          <input hidden id="id" name="id" defaultValue={data.id} />
-          <input hidden id="boardId" name="boardId" defaultValue={data.boardId} />
+          <input hidden id="id" name="id" value={data.id} />
+          <input hidden id="boardId" name="boardId" value={data.boardId} />
           <FormInput
             ref={inputRef}
             onBlur={onBlur}
@@ -106,8 +106,8 @@ export const ListHeader = ({
         </div>
       )}
       <ListOptions
-      data={data}
-      onAddCard={onAddCard}
+        onAddCard={onAddCard}
+        data={data}
       />
     </div>
   );

@@ -2,7 +2,7 @@ import { Plus } from 'lucide-react'
 
 import Logo from '@/components/logo'
 import { Button } from '@/components/ui/button'
-import { PopoverForm } from '@/components/form/form-popover'
+import { FormPopover } from '@/components/form/form-popover'
 import { OrganizationSwitcher, UserButton } from '@clerk/nextjs'
 import MobileSidebar from './mobile-sidebar'
 
@@ -14,7 +14,7 @@ const Navbar = () => {
         <div className="hidden md:flex">
           <Logo />
         </div>
-        <PopoverForm
+        <FormPopover
           align="start"
           side="bottom"
           sideOffset={80}
@@ -26,8 +26,8 @@ const Navbar = () => {
           >
             Create
           </Button>
-        </PopoverForm>
-        <PopoverForm>
+        </FormPopover>
+        <FormPopover>
           <Button
             variant="primary"
             size="sm"
@@ -35,7 +35,7 @@ const Navbar = () => {
           >
             <Plus className="h-4 w-4" />
           </Button>
-        </PopoverForm>
+        </FormPopover>
       </div>
       <div className="ml-auto flex items-center gap-x-2">
         <OrganizationSwitcher

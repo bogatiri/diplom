@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   db:
-    container_name: diplom_project
+    container_name: diplom
     image: postgres:15
     restart: always
     ports:

@@ -1,25 +1,25 @@
-'use server'
+"use server";
 
-import { auth } from '@clerk/nextjs'
-import { revalidatePath } from 'next/cache'
+import { auth } from "@clerk/nextjs";
+import { revalidatePath } from "next/cache";
 
-import { db } from '@/lib/db'
-import { createSafeAction } from '@/lib/create-safe-action'
+import { db } from "@/lib/db";
+import { createSafeAction } from "@/lib/create-safe-action";
 
-import { CreateCard } from './schema'
-import { InputType, ReturnType } from './types'
+import { CreateCard } from "./schema";
+import { InputType, ReturnType } from "./types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth()
+  const { userId, orgId } = auth();
 
   if (!userId || !orgId) {
     return {
-      error: 'Unauthorized',
-    }
+      error: "Unauthorized",
+    };
   }
 
-  const { title, boardId, listId} = data
-  let card
+  const { title, boardId, listId } = data;
+  let card;
 
   try {
     const list = await db.list.findUnique({
@@ -29,21 +29,21 @@ const handler = async (data: InputType): Promise<ReturnType> => {
           orgId,
         },
       },
-    })
+    });
 
     if (!list) {
       return {
-        error: 'List not found',
-      }
+        error: "List not found",
+      };
     }
 
     const lastCard = await db.card.findFirst({
       where: { listId },
-      orderBy: { order: 'desc' },
+      orderBy: { order: "desc" },
       select: { order: true },
-    })
+    });
 
-    const newOrder = lastCard ? lastCard.order + 1 : 1
+    const newOrder = lastCard ? lastCard.order + 1 : 1;
 
     card = await db.card.create({
       data: {
@@ -51,16 +51,17 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         listId,
         order: newOrder,
       },
-    })
+    });
+
 
   } catch (error) {
     return {
-      error: 'Failed to create.',
+      error: "Failed to create."
     }
   }
 
-  revalidatePath(`/board/${boardId}`)
-  return { data: card }
-}
+  revalidatePath(`/board/${boardId}`);
+  return { data: card };
+};
 
-export const createCard = createSafeAction(CreateCard, handler)
+export const createCard = createSafeAction(CreateCard, handler);

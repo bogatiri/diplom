@@ -1,67 +1,66 @@
-'use client'
+"use client";
 
-import { FormInput } from '@/components/form/form-input'
-import { Button } from '@/components/ui/button'
-import { Board } from '@prisma/client'
-import { ElementRef, useRef, useState } from 'react'
-import { updateBoard } from '@/actions/update-board'
-import { useAction } from '@/hooks/useAction'
-import { toast } from 'sonner'
+import { toast } from "sonner";
+import { ElementRef, useRef, useState } from "react";
+import { Board } from "@prisma/client";
+
+import { Button } from "@/components/ui/button";
+import { FormInput } from "@/components/form/form-input";
+import { updateBoard } from "@/actions/update-board";
+import { useAction } from "@/hooks/use-action";
 
 interface BoardTitleFormProps {
-  data: Board
-}
+  data: Board;
+};
 
-const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
+export const BoardTitleForm = ({
+  data,
+}: BoardTitleFormProps) => {
   const { execute } = useAction(updateBoard, {
     onSuccess: (data) => {
-      toast.success(`Board "${data.title}"updated`)
-      setTitle(data.title)
-      disableEditing()
+      toast.success(`Board "${data.title}" updated!`);
+      setTitle(data.title);
+      disableEditing();
     },
     onError: (error) => {
-      toast.error(error)
-    },
-  })
-  
-  const formRef = useRef<ElementRef<'form'>>(null)
-  const inputRef = useRef<ElementRef<'input'>>(null)
+      toast.error(error);
+    }
+  });
 
-  const [title, setTitle] = useState(data.title)
-  const [isEditing, setIsEditing] = useState(false)
+  const formRef = useRef<ElementRef<"form">>(null);
+  const inputRef = useRef<ElementRef<"input">>(null);
+
+  const [title, setTitle] = useState(data.title);
+  const [isEditing, setIsEditing] = useState(false);
 
   const enableEditing = () => {
-    setIsEditing(true)
+    setIsEditing(true);
     setTimeout(() => {
-      inputRef.current?.focus()
-      inputRef.current?.select()
+     inputRef.current?.focus();
+     inputRef.current?.select(); 
     })
-  }
+  };
 
   const disableEditing = () => {
-    setIsEditing(false)
-  }
+    setIsEditing(false);
+  };
 
   const onSubmit = (formData: FormData) => {
-    const title = formData.get('title') as string
-
+    const title = formData.get("title") as string;
+    
     execute({
       title,
       id: data.id,
-    })
-  }
+    });
+  };
 
   const onBlur = () => {
-    formRef.current?.requestSubmit()
-  }
+    formRef.current?.requestSubmit();
+  };
 
   if (isEditing) {
     return (
-      <form
-        action={onSubmit}
-        className="flex iems-center gap-x-2"
-        ref={formRef}
-      >
+      <form action={onSubmit} ref={formRef} className="flex items-center gap-x-2">
         <FormInput
           ref={inputRef}
           id="title"
@@ -72,16 +71,14 @@ const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
       </form>
     )
   }
-
+  
   return (
     <Button
       onClick={enableEditing}
       variant="transparent"
-      className=" font-bold text-lg h-auto w-auto p-1 px-2"
+      className="font-bold text-lg h-auto w-auto p-1 px-2"
     >
       {title}
     </Button>
-  )
-}
-
-export default BoardTitleForm
+  );
+};

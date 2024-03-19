@@ -6,37 +6,40 @@ import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db'
 import { createSafeAction } from '@/lib/create-safe-action'
 
-import { DeleteBoard } from './schema'
+import { DeleteCard } from './schema'
 import { InputType, ReturnType } from './types'
-import { redirect } from 'next/navigation'
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth()
 
   if (!userId || !orgId) {
     return {
-      error: 'Unauthorizded',
+      error: 'Unauthorized',
     }
   }
 
-  const {  id } = data
-  let board
+  const { id, boardId } = data
+  let card
 
   try {
-    board = await db.board.delete({
+    card = await db.card.delete({
       where: {
         id,
-        orgId,
+        list: {
+          board: {
+            orgId,
+          },
+        },
       },
     })
   } catch (error) {
     return {
-      error: 'Failed to delete',
+      error: 'Failed to delete.',
     }
   }
 
-  revalidatePath(`/organization/${orgId}`)
-  redirect(`/organization/${orgId}`)
+  revalidatePath(`/board/${boardId}`)
+  return { data: card }
 }
 
-export const deleteBoard = createSafeAction(DeleteBoard, handler)
+export const deleteCard = createSafeAction(DeleteCard, handler)

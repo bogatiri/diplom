@@ -1,23 +1,25 @@
-'use server'
+"use server";
 
-import { auth } from '@clerk/nextjs'
-import { InputType, ReturnType } from './types'
-import { db } from '@/lib/db'
-import { revalidatePath } from 'next/cache'
-import { createSafeAction } from '@/lib/create-safe-action'
-import { UpdateList } from './schema'
+import { auth } from "@clerk/nextjs";
+import { revalidatePath } from "next/cache";
+
+import { db } from "@/lib/db";
+import { createSafeAction } from "@/lib/create-safe-action";
+
+import { UpdateList } from "./schema";
+import { InputType, ReturnType } from "./types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth()
+  const { userId, orgId } = auth();
 
   if (!userId || !orgId) {
     return {
-      error: 'Unauthorizded',
-    }
+      error: "Unauthorized",
+    };
   }
 
-  const { title, id, boardId } = data
-  let list
+  const { title, id, boardId } = data;
+  let list;
 
   try {
     list = await db.list.update({
@@ -25,21 +27,22 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         id,
         boardId,
         board: {
-          orgId
-        }
+          orgId,
+        },
       },
       data: {
         title,
       },
-    })
+    });
+
   } catch (error) {
     return {
-      error: 'Failed to update',
+      error: "Failed to update."
     }
   }
 
-  revalidatePath(`/board/${boardId}`)
-  return { data: list }
-}
+  revalidatePath(`/board/${boardId}`);
+  return { data: list };
+};
 
-export const updateList = createSafeAction(UpdateList, handler)
+export const updateList = createSafeAction(UpdateList, handler);

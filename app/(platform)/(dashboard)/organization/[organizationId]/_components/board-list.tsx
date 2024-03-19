@@ -1,4 +1,4 @@
-import { PopoverForm } from '@/components/form/form-popover'
+import { FormPopover } from '@/components/form/form-popover'
 import Hint from '@/components/hint'
 import { HelpCircle, User2 } from 'lucide-react'
 import { db } from '@/lib/db'
@@ -41,7 +41,7 @@ export const BoardList = async () => {
             <p className="relative font-semibold text-white">{board.title}</p>
           </Link>
         ))}
-        <PopoverForm
+        <FormPopover
           sideOffset={10}
           side="right"
         >
@@ -60,7 +60,7 @@ export const BoardList = async () => {
               <HelpCircle className="absolute bottom-2 right-2 h-[14px] 2-[14px]" />
             </Hint>
           </div>
-        </PopoverForm>
+        </FormPopover>
       </div>
     </div>
   )
